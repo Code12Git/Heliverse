@@ -12,8 +12,6 @@ This full-stack web application allows users to view, interact, and manage a lis
 - [Getting Started](#getting-started)
 - [Backend](#backend)
 - [Frontend](#frontend)
-- [Configuration](#configuration)
-- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
 
