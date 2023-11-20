@@ -38,7 +38,14 @@ export const createUser = async (req, res) => {
 // Get All Users
 
 export const getAllUsers = async (req, res) => {
-  const { page = 1, limit = 20, domain, available, gender } = req.query;
+  const {
+    page = 1,
+    limit = 20,
+    domain,
+    available,
+    gender,
+    first_name,
+  } = req.query;
   const skipCount = (page - 1) * limit;
 
   const query = {};
@@ -51,6 +58,9 @@ export const getAllUsers = async (req, res) => {
   }
   if (gender) {
     query.gender = gender;
+  }
+  if (first_name) {
+    query.first_name = { $regex: `^${first_name}`, $options: 'i' };
   }
 
   try {
