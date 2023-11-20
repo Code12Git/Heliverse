@@ -25,10 +25,11 @@ export default function FilterModal({applyFilter}) {
         setFiltering((prev)=>({...prev,[name]:value}))
     }
 
-    const handleSubmit=()=>{        
-    dispatch(filterUsers({ page: 1, filters: filtering }));
-    closeModal();
-  };
+ const handleSubmit = () => {        
+  dispatch(filterUsers({ page: 1, filters: filtering }));
+  closeModal();
+};
+
 
     
 
@@ -84,14 +85,14 @@ export default function FilterModal({applyFilter}) {
     <div className="mt-2">
       <label className="text-gray-800 mb-2">Gender</label>
       <div className="flex items-center gap-4">
-        <input  type="radio" value="male" onChange={handleChange} 
+        <input  type="radio" value="Male" onChange={handleChange} 
                  name="gender"
                   className="radio-input" />
         <label htmlFor="radio1" className="text-gray-800">
           Male
         </label>
         <input type="radio"  name="gender"
-                value="female" onChange={handleChange} 
+                value="Female" onChange={handleChange} 
               className="radio-input" />
         <label htmlFor="radio2" className="text-gray-800">
           Female
@@ -107,7 +108,7 @@ export default function FilterModal({applyFilter}) {
                       className="select-input w-32 p-1 rounded bg-gray-400 text-white"
                     >
                       <option value="true">True</option>
-                      <option value="false">False</option>
+                     <option value="false">False</option>
                     </select>
                   </div>
     </div>
@@ -116,7 +117,7 @@ export default function FilterModal({applyFilter}) {
   <div className="mt-6 flex justify-end">
     <button
       type="button"
-      onSubmit={handleSubmit}
+      onClick={handleSubmit}
       className="btn-blue rounded-lg bg-red-400 inline-flex items-center px-4 py-2 text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
       
     >

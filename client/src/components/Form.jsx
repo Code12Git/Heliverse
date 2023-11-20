@@ -157,7 +157,7 @@ const handleSubmit = async (e) => {
                 value="male"
                 checked={formData.gender === 'male'}
                 onChange={handleRadioChange}
-                className="radio radio-primary"
+                className="radio radio-primary border border-white"
               />
               <label htmlFor="male" className="ml-2 text-lg text-gray-900">
                 Male
@@ -171,7 +171,7 @@ const handleSubmit = async (e) => {
                 value="female"
                 checked={formData.gender === 'female'}
                 onChange={handleRadioChange}
-                className="radio radio-primary"
+                className="radio radio-primary border border-white"
               />
               <label htmlFor="female" className="ml-2 text-lg text-gray-900">
                 Female

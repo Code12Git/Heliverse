@@ -32,7 +32,6 @@ const userSchema = new Schema({
     default: false,
   },
 });
-
 const User = mongoose.model('User', userSchema);
 
 export default User;

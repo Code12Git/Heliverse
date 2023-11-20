@@ -1,18 +1,16 @@
-import React,{useState} from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchAllUsers } from '../redux/userRedux';
 import UpdateModal from './common/UpdateModal';
 import { deleteUser } from '../redux/userRedux';
 import UserDetailsModal from './common/UserDetailsModal';
-import { createTeam } from '../redux/userRedux';
-import toast from 'react-hot-toast';
 
 
-const Card = ({ user }) => {
+
+const Card = ({ user, onCheckboxChange  }) => {
   const dispatch = useDispatch();
 
 
-  const [isSelected, setIsSelected] = useState(false); 
 
 const handleDeleteUser = async (id) => {
   try {
@@ -24,19 +22,20 @@ const handleDeleteUser = async (id) => {
 };
 
 
-  const handleCheckboxChange = () => {
-    setIsSelected(!isSelected);
-    toast.success(`User ${user._id} has been ${isSelected ? 'unselected' : 'selected'}`);
+  const handleCheckbox = (event) => {
+    const { checked } = event.target;
+    onCheckboxChange(user._id, checked);
   };
 
- const handleFormTeam = () => {
-    if (isSelected) {
-      dispatch(createTeam({ selectedUsers: [user._id] }));
-      toast.success(`User ${user._id} has been added to the team`);
-    } else {
-      toast.error('Please select the user to form a team');
-    }
-  };
+
+
+
+
+  
+
+ 
+
+
  
 
   return (
@@ -54,12 +53,12 @@ const handleDeleteUser = async (id) => {
         <p className="text-violet-600 text-base mb-2">{`Available: ${user.available}`}</p>
       </div>
        <div className="flex flex-col gap-2  items-center m-6">
-          <input
-            type="checkbox"
-            className="checkbox"
-            checked={isSelected}
-            onChange={handleCheckboxChange}
-          />
+           <input
+      type="checkbox"
+      className="checkbox"
+      onChange={handleCheckbox}
+      value={user._id}
+    />
           <button
           onClick={()=>handleDeleteUser(user._id)}
           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-110"
@@ -69,15 +68,10 @@ const handleDeleteUser = async (id) => {
         </div>
       </div>
       <div className="px-6 py-4 flex justify-between">
-       <button
-            onClick={handleFormTeam}
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-110"
-          >
-            Add in Team
-          </button>
-       <button>        
+      
+       <button>         
         <UserDetailsModal id={user._id} />
-        </button>
+         </button> 
         <button>
          <UpdateModal user={user} />
         </button>

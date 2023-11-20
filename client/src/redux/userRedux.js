@@ -7,7 +7,6 @@ export const fetchUserById = createAsyncThunk(
   async (id) => {
     try {
       const response = await axios.get(`/users/${id}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -64,7 +63,6 @@ export const filterUsers = createAsyncThunk(
         params: filters,
       });
       if (response.data.success === true) {
-        console.log(response.data);
         return response.data;
       } else {
         console.error('Request was not successful');
@@ -78,21 +76,6 @@ export const filterUsers = createAsyncThunk(
   },
 );
 
-// Creating a team
-export const createTeam = createAsyncThunk(
-  'user/createTeam',
-  async ({ selectedUsers }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`/teams`, {
-        selectedUsers,
-      });
-
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
 export const userDetail = createSlice({
   name: 'userDetail',
   initialState: {
@@ -133,6 +116,17 @@ export const userDetail = createSlice({
       }
     },
     [deleteUser.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [filterUsers.pending]: (state) => {
+      state.loading = true;
+    },
+    [filterUsers.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    [filterUsers.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

@@ -76,9 +76,7 @@ export default function UserDetailsModal({ id }) {
                 <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                   Domain: {userData && userData.domain}
                 </Dialog.Title>
-                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                 Available: {userData && userData.available}
-                </Dialog.Title>
+           
                 <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                 Gender: {userData && userData.gender}
                 </Dialog.Title>
