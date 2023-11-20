@@ -5,6 +5,12 @@ const teamMembersSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  first_name: String,
+  last_name: String,
+  email: String,
+  domain: String,
+  available: Boolean,
+  gender: String,
 });
 
 const teamSchema = new mongoose.Schema({

@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  SearchUser,
   createUser,
   deleteUser,
   getAllUsers,
@@ -23,5 +24,8 @@ router.put('/:id', updateUser);
 
 // Deleting a user
 router.delete('/:id', deleteUser);
+
+// Searching a user
+router.get('/search', SearchUser);
 
 export default router;

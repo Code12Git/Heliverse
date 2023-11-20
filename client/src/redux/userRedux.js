@@ -7,6 +7,7 @@ export const fetchUserById = createAsyncThunk(
   async (id) => {
     try {
       const response = await axios.get(`/users/${id}`);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -54,6 +55,44 @@ export const deleteUser = createAsyncThunk(
   },
 );
 
+// Filtering Users
+export const filterUsers = createAsyncThunk(
+  'user/filterUsers',
+  async ({ page = 1, filters }) => {
+    try {
+      const response = await axios.get(`/users?page=${page}`, {
+        params: filters,
+      });
+      if (response.data.success === true) {
+        console.log(response.data);
+        return response.data;
+      } else {
+        console.error('Request was not successful');
+        throw new Error('Request was not successful');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to fetch filtered users');
+      throw error;
+    }
+  },
+);
+
+// Creating a team
+export const createTeam = createAsyncThunk(
+  'user/createTeam',
+  async ({ selectedUsers }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`/teams`, {
+        selectedUsers,
+      });
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 export const userDetail = createSlice({
   name: 'userDetail',
   initialState: {
@@ -71,10 +110,6 @@ export const userDetail = createSlice({
   },
 
   extraReducers: {
-    [fetchUserById.pending]: (state) => {
-      state.loading = true;
-    },
-
     [fetchAllUsers.pending]: (state) => {
       state.loading = true;
     },
@@ -86,31 +121,7 @@ export const userDetail = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    [fetchUserById.pending]: (state) => {
-      state.loading = true;
-    },
-    // [fetchUserById.fulfilled]: (state, action) => {
-    //   state.loading = false;
-    //   const userById = action.payload;
-    //   const existingUsers = state.users || []; // Ensure existingUsers is an array
 
-    //   // Check if the user fetched by ID already exists in the users array
-    //   const userIndex = existingUsers.findIndex(
-    //     (user) => user._id === userById._id,
-    //   );
-
-    //   // If the user doesn't exist, add it to the array; otherwise, update the existing user
-    //   if (userIndex === -1) {
-    //     state.users = [...existingUsers, userById];
-    //   } else {
-    //     state.users[userIndex] = userById;
-    //   }
-    // },
-
-    [fetchUserById.rejected]: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
     [deleteUser.pending]: (state) => {
       state.loading = true;
     },
@@ -122,6 +133,17 @@ export const userDetail = createSlice({
       }
     },
     [deleteUser.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [filterUsers.pending]: (state) => {
+      state.loading = true;
+    },
+    [filterUsers.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    [filterUsers.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

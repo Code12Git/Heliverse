@@ -1,17 +1,26 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserById } from '../../redux/userRedux';
+import axios from '../../helpers/axios'; 
 
 export default function UserDetailsModal({ id }) {
-  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const user=useSelector(state=>state.user.users.users)
-  console.log(user)
-  
+  const [userData, setUserData] = useState(null);
+
   useEffect(() => {
-    dispatch(fetchUserById(id));
-  }, [dispatch, id]);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/users/${id}`); 
+        setUserData(response.data.user);
+        
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    };
+
+
+    fetchData();
+  }, [id]);
 
   function closeModal() {
     setIsOpen(false);
@@ -59,7 +68,22 @@ export default function UserDetailsModal({ id }) {
             >
               <div className="w-full max-w-md p-6 my-10 text-left align-middle transition-all transform bg-white rounded-2xl shadow-xl">
                 <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                  Name:{user.first_name}
+                  Id: {userData && userData._id}
+                </Dialog.Title>
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  Name: {userData && userData.first_name}
+                </Dialog.Title>
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  Domain: {userData && userData.domain}
+                </Dialog.Title>
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                 Available: {userData && userData.available}
+                </Dialog.Title>
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                Gender: {userData && userData.gender}
+                </Dialog.Title>
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                Email: {userData && userData.email}
                 </Dialog.Title>
 
                 <div className="mt-4">

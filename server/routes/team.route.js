@@ -1,14 +1,18 @@
 import express from 'express';
-import { createTeam, getTeam } from '../controllers/team.controllers.js';
+import {
+  createTeam,
+  getTeam,
+  deleteTeam,
+} from '../controllers/team.controllers.js';
 const router = express.Router();
 
 // Creating a router
 router.post('/', createTeam);
 
 // // Deleting a team
-// router.delete('/', deleteTeam);
+router.delete('/', deleteTeam);
 
 // Get a team
-router.get('/:id', getTeam);
+router.get('/', getTeam);
 
 export default router;

@@ -121,3 +121,17 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ error: err.message, success: false });
   }
 };
+
+// Searching a user
+export const SearchUser = async (req, res) => {
+  const { first_name } = req.query;
+
+  try {
+    const users = await User.find({
+      first_name: { $regex: new RegExp(first_name, 'i') },
+    });
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
